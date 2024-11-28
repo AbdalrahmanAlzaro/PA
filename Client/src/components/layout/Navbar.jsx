@@ -10,6 +10,7 @@ import Logo from "../../assets/images/Logo.png";
 import { ToastContainer } from "react-toastify";
 
 import { useAuth } from "../../hooks/AuthContext";
+import { useCart } from "../../hooks/CartContext";
 
 const Navbar = () => {
   const { isLoggedIn, logout } = useAuth();
@@ -72,6 +73,37 @@ const Navbar = () => {
     setActiveMenu(activeMenu === menu ? "" : menu);
   };
 
+  const { cartItems, totalAmount } = useCart();
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [isCartVisible, setIsCartVisible] = useState(false);
+  const cartRef = useRef(null);
+  totalAmount;
+  const toggleSearch = () => {
+    setIsSearchVisible(!isSearchVisible);
+  };
+
+  const toggleCart = () => {
+    setIsCartVisible(!isCartVisible);
+  };
+
+  const handleClickOutside1 = (event) => {
+    if (cartRef.current && !cartRef.current.contains(event.target)) {
+      setIsCartVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isCartVisible) {
+      document.addEventListener("mousedown", handleClickOutside1);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside1);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside1);
+    };
+  }, [isCartVisible]);
+
   return (
     <>
       {" "}
@@ -87,7 +119,7 @@ const Navbar = () => {
         pauseOnHover
         theme="colored"
       />{" "}
-      <nav className="bg-white px-10 relative z-50 sticky top-0">
+      <nav className="bg-white px-10  z-50 sticky top-0">
         <div className="container mx-auto flex items-center justify-between">
           <NavLink to="/">
             <div className="flex items-center">
@@ -108,631 +140,29 @@ const Navbar = () => {
                   Home
                 </NavLink>
               </li>
-              {/* 1 */}
-              <li
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(setIsAboutOpen)}
-                onMouseLeave={() => handleMouseLeave(setIsAboutOpen)}
-              >
-                <div className="flex items-center cursor-pointer text-gray-700 hover:text-gray-900">
-                  <NavLink
-                    to="/listing/Restaurants"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "text-gray-900 underline font-bold flex items-center"
-                        : "text-gray-700 flex items-center"
-                    }
-                  >
-                    Restaurants
-                  </NavLink>
-
-                  <svg
-                    className={`ml-2 w-4 h-4 transition-transform transform ${
-                      isAboutOpen ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-                <AnimatePresence>
-                  {isAboutOpen && (
-                    <motion.div
-                      className="absolute left-0 w-64 mt-2 bg-white border border-gray-200 rounded shadow-lg"
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                      onMouseEnter={() => handleMouseEnter(setIsAboutOpen)}
-                      onMouseLeave={() => handleMouseLeave(setIsAboutOpen)}
-                    >
-                      <div className="grid grid-cols-1 md:grid-cols-2">
-                        <div>
-                          <ul>
-                            <li>
-                              <NavLink
-                                to="/category/Restaurants/TakeOut"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                TakeOut
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/Restaurants/Delivery"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Delivery
-                              </NavLink>
-                            </li>{" "}
-                            <li>
-                              <NavLink
-                                to="/category/Restaurants/Burgers"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Burgers
-                              </NavLink>
-                            </li>{" "}
-                            <li>
-                              <NavLink
-                                to="/category/Restaurants/Chinese"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Chinese
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="overflow-y-auto max-h-48">
-                          <ul>
-                            <li>
-                              <NavLink
-                                to="/category/Restaurants/Thai"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Thai
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/Restaurants/Italian"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Italian
-                              </NavLink>{" "}
-                              <NavLink
-                                to="/category/Restaurants/Reservations"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Reservations
-                              </NavLink>{" "}
-                              <NavLink
-                                to="/category/Restaurants/Mexican"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Mexican
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+              <li>
+                <NavLink
+                  to="/shop"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-gray-900 underline font-bold"
+                      : "text-gray-700 hover:text-gray-900"
+                  }
+                >
+                  Shop
+                </NavLink>
               </li>
-              {/* 2 */}
-              <li
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(setIsHomeServicesOpen)}
-                onMouseLeave={() => handleMouseLeave(setIsHomeServicesOpen)}
-              >
-                <div className="flex items-center cursor-pointer text-gray-700 hover:text-gray-900">
-                  <NavLink
-                    to="/listing/Services"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "text-gray-900 underline font-bold flex items-center"
-                        : "text-gray-700 flex items-center"
-                    }
-                  >
-                    Services
-                  </NavLink>
-
-                  <svg
-                    className={`ml-2 w-4 h-4 transition-transform transform ${
-                      isHomeServicesOpen ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-                <AnimatePresence>
-                  {isHomeServicesOpen && (
-                    <motion.div
-                      className="absolute left-0 w-64 mt-2 bg-white border border-gray-200 rounded shadow-lg"
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                      onMouseEnter={() =>
-                        handleMouseEnter(setIsHomeServicesOpen)
-                      }
-                      onMouseLeave={() =>
-                        handleMouseLeave(setIsHomeServicesOpen)
-                      }
-                    >
-                      <div className="grid grid-cols-1 md:grid-cols-2">
-                        <div>
-                          <ul>
-                            <li>
-                              <NavLink
-                                to="/category/Services/Plumbing"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Plumbing
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/Services/Electrical"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Electrical
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/Services/Cleaning"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Cleaning
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/Services/Landscaping"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Landscaping
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="overflow-y-auto max-h-48">
-                          <ul>
-                            <li>
-                              <NavLink
-                                to="/category/Services/Carpentry"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Carpentry
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/Services/Moving"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Moving
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/Services/Handyman"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Handyman
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/Services/Design"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Design
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </li>
-              {/* 3 */}
-              <li
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(setIsAutoServicesOpen)}
-                onMouseLeave={() => handleMouseLeave(setIsAutoServicesOpen)}
-              >
-                <div className="flex items-center cursor-pointer text-gray-700 hover:text-gray-900">
-                  <NavLink
-                    to="/listing/AutoServices"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "text-gray-900 underline font-bold flex items-center"
-                        : "text-gray-700 flex items-center"
-                    }
-                  >
-                    Auto Services
-                  </NavLink>
-                  <svg
-                    className={`ml-2 w-4 h-4 transition-transform transform ${
-                      isAutoServicesOpen ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-                <AnimatePresence>
-                  {isAutoServicesOpen && (
-                    <motion.div
-                      className="absolute left-0 w-[26rem] mt-2 bg-white border border-gray-200 rounded shadow-lg"
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                      onMouseEnter={() =>
-                        handleMouseEnter(setIsAutoServicesOpen)
-                      }
-                      onMouseLeave={() =>
-                        handleMouseLeave(setIsAutoServicesOpen)
-                      }
-                    >
-                      <div className="grid grid-cols-1 md:grid-cols-2">
-                        <div>
-                          <ul>
-                            <li>
-                              <NavLink
-                                to="/category/AutoServices/CarMaintenance"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Car Maintenance
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/AutoServices/TireChange"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Tire Change
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/AutoServices/EngineRepair"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Engine Repair
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/AutoServices/OilChange"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Oil Change
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="overflow-y-auto max-h-48">
-                          <ul>
-                            <li>
-                              <NavLink
-                                to="/category/AutoServices/BrakeService"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Brake Service
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/AutoServices/Detailing"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Detailing
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/AutoServices/Inspection"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Inspection
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/AutoServices/EmergencyTowing"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Emergency Towing
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </li>
-              {/* 4 */}
-              <li
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(setIsMoreOpen)}
-                onMouseLeave={() => handleMouseLeave(setIsMoreOpen)}
-              >
-                <div className="flex items-center cursor-pointer text-gray-700 hover:text-gray-900">
-                  <NavLink
-                    to="/listing/More"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "text-gray-900 underline font-bold flex items-center"
-                        : "text-gray-700 flex items-center"
-                    }
-                  >
-                    More
-                  </NavLink>
-                  <svg
-                    className={`ml-2 w-4 h-4 transition-transform transform ${
-                      isMoreOpen ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-                <AnimatePresence>
-                  {isMoreOpen && (
-                    <motion.div
-                      className="absolute left-0 w-[22rem] mt-2 bg-white border border-gray-200 rounded shadow-lg"
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                      onMouseEnter={() => handleMouseEnter(setIsMoreOpen)}
-                      onMouseLeave={() => handleMouseLeave(setIsMoreOpen)}
-                    >
-                      <div className="grid grid-cols-1 md:grid-cols-2">
-                        <div>
-                          <ul>
-                            <li>
-                              <NavLink
-                                to="/category/More/DryCleaning"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Dry Cleaning
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/More/PhoneRepair"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Phone Repair
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/More/Cafes"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Cafes
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/More/OutdoorActivities"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Outdoor Activities
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="overflow-y-auto max-h-48">
-                          <ul>
-                            <li>
-                              <NavLink
-                                to="/category/More/HairSalons"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Hair Salons
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/More/Gyms"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Gyms
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/More/Spas"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Spas
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink
-                                to="/category/More/Shopping"
-                                className={({ isActive }) =>
-                                  `block px-4 py-2 text-gray-700 hover:bg-gray-100 ${
-                                    isActive ? "font-bold" : ""
-                                  }`
-                                }
-                              >
-                                Shopping
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+              <li>
+                <NavLink
+                  to="/shop"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-gray-900 underline font-bold"
+                      : "text-gray-700 hover:text-gray-900"
+                  }
+                >
+                  Our Story
+                </NavLink>
               </li>
 
               <div className="flex items-center cursor-pointer text-gray-700 hover:text-gray-900">
@@ -832,6 +262,83 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
+          <div className="pr-4">
+            <button
+              className="text-gray-600 relative hover:text-red-500 transition-colors"
+              onClick={toggleCart}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                {cartItems.length}
+              </span>
+            </button>
+          </div>
+          {isCartVisible && (
+            <div
+              ref={cartRef}
+              className={`${
+                isCartVisible
+                  ? `opacity-100 scale-100 ${
+                      cartItems.length === 0 ? "mt-64" : "mt-[27rem]"
+                    }`
+                  : "opacity-0 scale-90 "
+              } transition-all duration-300 transform ease-in-out absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-xl p-4 z-50`}
+            >
+              <h3 className="text-lg font-semibold mb-3 border-b pb-2">
+                Cart Summary
+              </h3>
+              <div className="overflow-y-auto max-h-60">
+                {cartItems.length === 0 ? (
+                  <p>Your cart is empty.</p>
+                ) : (
+                  cartItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between space-x-2 border-b pb-2"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-12 h-12 object-cover rounded-md"
+                      />
+                      <div className="flex flex-col flex-grow">
+                        <span className="font-medium text-sm">{item.name}</span>
+                        <span className="text-gray-500 text-xs">
+                          Price: ${item.price}
+                        </span>
+                        <span className="text-gray-500 text-xs">
+                          Qty: {item.quantity}
+                        </span>
+                        <span className="text-gray-500 text-xs">
+                          Total: ${(item.price * item.quantity).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  ))
+                )}
+                <div className="flex justify-between border-t pt-2 font-bold text-lg">
+                  <span>Total</span>
+                  <span>${totalAmount}</span>
+                </div>
+              </div>
+              <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors">
+                View Cart
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu */}
@@ -888,470 +395,7 @@ const Navbar = () => {
                       Home
                     </NavLink>
                   </li>
-                  <li className="relative">
-                    <div className="flex items-center cursor-pointer text-gray-700 hover:text-gray-900 px-6 py-3">
-                      <NavLink
-                        to="/listing/Restaurants"
-                        className={({ isActive }) =>
-                          isActive
-                            ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
-                            : "block text-gray-700 hover:text-gray-900  pl-4"
-                        }
-                        onClick={toggleMobileMenu}
-                      >
-                        Restaurants
-                      </NavLink>
-                      <svg
-                        className={`ml-2 w-4 h-4 transition-transform transform cursor-pointer ${
-                          activeMenu === "about" ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        onClick={() => handleMobileMenuClick("about")}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-                    <AnimatePresence>
-                      {activeMenu === "about" && (
-                        <motion.ul
-                          className="bg-white border border-gray-300 rounded-lg mt-2"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <li>
-                            <NavLink
-                              to="/category/Restaurants/TakeOut"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              TakeOut
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/category/Restaurants/Delivery"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Delivery
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/category/Restaurants/Reservation"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Reservation
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Restaurants/Burgers"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Burgers
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Restaurants/Thai"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Thai
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Restaurants/Italian"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Italian
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Restaurants/Reservations"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Reservations
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Restaurants/Mexican"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Mexican
-                            </NavLink>
-                          </li>{" "}
-                        </motion.ul>
-                      )}
-                    </AnimatePresence>
-                  </li>{" "}
-                  <li className="relative">
-                    <div className="flex items-center cursor-pointer text-gray-700 hover:text-gray-900 px-6 py-3">
-                      <NavLink
-                        to="/listing/Services"
-                        className={({ isActive }) =>
-                          isActive
-                            ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
-                            : "block text-gray-700 hover:text-gray-900  pl-4"
-                        }
-                        onClick={toggleMobileMenu}
-                      >
-                        Services
-                      </NavLink>
-                      <svg
-                        className={`ml-2 w-4 h-4 transition-transform transform cursor-pointer ${
-                          activeMenu === "service" ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        onClick={() => handleMobileMenuClick("service")}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-                    <AnimatePresence>
-                      {activeMenu === "service" && (
-                        <motion.ul
-                          className="bg-white border border-gray-300 rounded-lg mt-2"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <li>
-                            <NavLink
-                              to="/category/Services/Plumbing"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Plumbing
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/category/Services/Electrical"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Electrical
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/category/Services/Cleaning"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Cleaning
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Services/Landscaping"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Landscaping
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Services/Carpentry"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Carpentry
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Services/Moving"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Moving
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Services/Handyman"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Handyman
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/Services/Design"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Design
-                            </NavLink>
-                          </li>{" "}
-                        </motion.ul>
-                      )}
-                    </AnimatePresence>
-                  </li>{" "}
-                  <li className="relative">
-                    <div className="flex items-center cursor-pointer text-gray-700 hover:text-gray-900 px-6 py-3">
-                      <NavLink
-                        to="/listing/AutoServices"
-                        className={({ isActive }) =>
-                          isActive
-                            ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
-                            : "block text-gray-700 hover:text-gray-900  pl-4"
-                        }
-                        onClick={toggleMobileMenu}
-                      >
-                        Auto Services
-                      </NavLink>
-                      <svg
-                        className={`ml-2 w-4 h-4 transition-transform transform cursor-pointer ${
-                          activeMenu === "AutoServices" ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        onClick={() => handleMobileMenuClick("AutoServices")}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-                    <AnimatePresence>
-                      {activeMenu === "AutoServices" && (
-                        <motion.ul
-                          className="bg-white border border-gray-300 rounded-lg mt-2"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <li>
-                            <NavLink
-                              to="/category/AutoServices/CarMaintenance"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Car Maintenance
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/category/AutoServices/TireChange"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Tire Change
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/category/AutoServices/EngineRepair"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Engine Repair
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/AutoServices/OilChange"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Oil Change
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/AutoServices/BrakeService"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Brake Service
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/AutoServices/Detailing"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Detailing
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/AutoServices/Inspection"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Inspection
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/AutoServices/EmergencyTowing"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Emergency Towing
-                            </NavLink>
-                          </li>{" "}
-                        </motion.ul>
-                      )}
-                    </AnimatePresence>
-                  </li>{" "}
-                  <li className="relative">
-                    <div className="flex items-center cursor-pointer text-gray-700 hover:text-gray-900 px-6 py-3">
-                      <NavLink
-                        to="/listing/More"
-                        className={({ isActive }) =>
-                          isActive
-                            ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
-                            : "block text-gray-700 hover:text-gray-900  pl-4"
-                        }
-                        onClick={toggleMobileMenu}
-                      >
-                        More{" "}
-                      </NavLink>
-                      <svg
-                        className={`ml-2 w-4 h-4 transition-transform transform cursor-pointer ${
-                          activeMenu === "More" ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        onClick={() => handleMobileMenuClick("More")}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-                    <AnimatePresence>
-                      {activeMenu === "More" && (
-                        <motion.ul
-                          className="bg-white border border-gray-300 rounded-lg mt-2"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <li>
-                            <NavLink
-                              to="/category/More/DryCleaning"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Dry Cleaning
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/category/More/PhoneRepair"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Phone Repair
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/category/More/Cafes"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Cafes{" "}
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/More/OutdoorActivities"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Outdoor Activities{" "}
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/More/HairSalons"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Hair Salons{" "}
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/More/Gyms"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Gyms
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/More/Spas"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Spas
-                            </NavLink>
-                          </li>{" "}
-                          <li>
-                            <NavLink
-                              to="/category/More/Shopping"
-                              className="block px-6 py-3 text-gray-700 hover:bg-gray-100 ml-4"
-                              onClick={toggleMobileMenu}
-                            >
-                              Shopping{" "}
-                            </NavLink>
-                          </li>{" "}
-                        </motion.ul>
-                      )}
-                    </AnimatePresence>
-                  </li>{" "}
+
                   <li className="px-6 py-3">
                     {isLoggedIn ? (
                       <>
