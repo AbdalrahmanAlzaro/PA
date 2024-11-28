@@ -17,11 +17,9 @@ import About from "./pages/About";
 import Category from "./pages/Category";
 import ListingsPage from "./pages/listing";
 import ReviewPage from "./pages/Review";
-import ProfilePage from "./pages/profile";
 import App3 from "./pages/shop";
 import AboutUs from "./pages/EC-about";
 import App2 from "./pages/EC";
-import BlogPage from "./pages/Blog";
 import PricingPage from "./pages/pricing";
 import ProfilePage2 from "./pages/Uprofile";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
@@ -104,13 +102,10 @@ const App = () => {
             <Route path="/signup" element={<Signup setUser={setUser} />} />
             <Route path="/Login" element={<Login setUser={setUser} />} />
             <Route path="/PricingPage" element={<PricingPage />} />
-            <Route path="/BlogPage" element={<BlogPage />} />
 
             <Route path="/EC" element={<App2 />} />
             <Route path="/shop" element={<App3 />} />
             <Route path="/AboutUs" element={<AboutUs />} />
-            <Route path="/profile" element={<ProfilePage user={user} />} />
-            <Route path="/profile/:id" element={<ProfilePage user={user} />} />
           </Routes>
         </main>
         {!hideNavbarFooter && <Footer />}
