@@ -12,9 +12,9 @@ const Home = () => {
     <div>
       <Hero />
       <CategorySectoin />
-      <TopRated />
+      {/* <TopRated /> */}
       <FeaturedSection />
-      <ReviewSection />
+      {/* <ReviewSection /> */}
     </div>
   );
 };
