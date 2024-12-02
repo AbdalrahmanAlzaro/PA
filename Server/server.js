@@ -5,16 +5,16 @@ const multer = require("multer");
 const path = require("path");
 
 const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-const serviceRoutes = require("./routes/serviceRoutes");
-const reviewRoutes = require("./routes/reviewRoutes");
-const favoriteRoutes = require("./routes/favoriteRoutes");
-const replyRoutes = require("./routes/replyRoutes");
-const contactMessagesRoutes = require("./routes/contactMessagesRoutes");
-const planRoutes = require("./routes/planRoutes");
-const subscriptionRoutes = require("./routes/subscriptionRoutes");
-const businessAdminRoutes = require("./routes/businessAdminRoutes");
-const contactRoutes = require("./routes/contactRoutes");
+// const userRoutes = require("./routes/userRoutes");
+// const serviceRoutes = require("./routes/serviceRoutes");
+// const reviewRoutes = require("./routes/reviewRoutes");
+// const favoriteRoutes = require("./routes/favoriteRoutes");
+// const replyRoutes = require("./routes/replyRoutes");
+// const contactMessagesRoutes = require("./routes/contactMessagesRoutes");
+// const planRoutes = require("./routes/planRoutes");
+// const subscriptionRoutes = require("./routes/subscriptionRoutes");
+// const businessAdminRoutes = require("./routes/businessAdminRoutes");
+// const contactRoutes = require("./routes/contactRoutes");
 
 dotenv.config();
 
@@ -42,16 +42,16 @@ app.use(
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api", userRoutes);
-app.use("/api", serviceRoutes);
-app.use("/api", reviewRoutes);
-app.use("/api", favoriteRoutes);
-app.use("/api", replyRoutes);
-app.use("/api", contactMessagesRoutes);
-app.use("/api", planRoutes);
-app.use("/api", subscriptionRoutes);
-app.use("/api/businessAdmin", businessAdminRoutes);
-app.use("/api", contactRoutes);
+// app.use("/api", userRoutes);
+// app.use("/api", serviceRoutes);
+// app.use("/api", reviewRoutes);
+// app.use("/api", favoriteRoutes);
+// app.use("/api", replyRoutes);
+// app.use("/api", contactMessagesRoutes);
+// app.use("/api", planRoutes);
+// app.use("/api", subscriptionRoutes);
+// app.use("/api/businessAdmin", businessAdminRoutes);
+// app.use("/api", contactRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
