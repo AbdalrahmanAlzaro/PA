@@ -36,16 +36,6 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
         allowNull: false,
       },
-      phoneNumber: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        defaultValue: "",
-      },
-      businessName: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        defaultValue: "",
-      },
       otp: {
         type: DataTypes.STRING,
         allowNull: true,

@@ -189,14 +189,15 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <div className="flex items-center  md:block">
+              <div className="flex items-center md:block">
                 <button
                   onClick={openLogin}
-                  className="bg-[#060640] hover:bg-[#060640] hover:opacity-80 text-white font-bold h-8 px-4 rounded-3xl mr-2"
+                  className="hidden md:block bg-[#060640] hover:bg-[#060640] hover:opacity-80 text-white font-bold h-8 px-4 rounded-3xl mr-2"
                 >
                   LogIn
                 </button>
               </div>
+
               <Login
                 isOpen={isLoginOpen}
                 onClose={closeLogin}
