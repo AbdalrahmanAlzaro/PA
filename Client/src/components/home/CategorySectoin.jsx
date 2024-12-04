@@ -1,6 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Sofa from "../../assets/images/sofa-removebg-preview.png";
+import C1 from "../../assets/Image/C1.png";
+import C2 from "../../assets/Image/C2.png";
+import C3 from "../../assets/Image/C3.png";
+import C4 from "../../assets/Image/C4.png";
+import C5 from "../../assets/Image/C5.png";
+import C6 from "../../assets/Image/C6.png";
 import Restaurant from "../../assets/images/rest.avif.png";
 import Electronics from "../../assets/images/Electronics.jpg.png";
 import Apparel from "../../assets/images/Apparel.jpg.png";
@@ -39,7 +44,7 @@ const CategoryCard = ({
         <div className={`text-2xl font-bold ${Color}`}>{title}</div>
         {cta && (
           <Link to="/category/list">
-            <button className="mt-4 py-2 px-4 bg-[#060640] hover:opacity-90 w-36 text-white rounded-3xl">
+            <button className="mt-4 py-2 px-4 bg-[#FA5990]  hover:opacity-80 w-36 text-white rounded-3xl">
               {cta}
             </button>
           </Link>
@@ -96,75 +101,72 @@ const CategorySectoin = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-4 md:px-10 lg:px-40 mt-10">
-        {/* First row */}
         <div className="lg:col-span-2">
           <CategoryCard
-            title="Restaurants"
-            category="Dining & Food"
-            image={Restaurant}
+            title="Veterinary Care"
+            category="Health Services"
+            image={C1}
             cta="Show More"
             bgColor="bg-[#eeeeee]"
             Color="text-[#646464]"
             alignImage="flex justify-end"
-            imageSize="large" // Larger image
-            imageAlignment="right" // Align image to the right
-            cardIndex={1} // First card
+            imageSize="medium"
+            imageAlignment="right"
+            cardIndex={1}
           />
         </div>
         <CategoryCard
-          title="Electronics"
-          category="Gadgets & Devices"
-          image={Electronics}
+          title="Animal Food"
+          category="Nutrition & Supplies"
+          image={C2}
           bgColor="bg-[#d4edf8]"
           Color="text-[#3a8fb6]"
           alignImage="flex justify-center"
-          imageSize="medium" // Default size
-          cardIndex={2} // Second card
+          imageSize="large"
+          cardIndex={2}
         />
         <CategoryCard
-          title="Apparel"
-          category="Clothing & Fashion"
-          image={Apparel}
+          title="Toys"
+          category="Entertainment"
+          image={C3}
           bgColor="bg-[#fef9c4]"
           Color="text-[#e4cd4c]"
           alignImage="flex justify-center"
-          imageSize="medium" // Default size
-          cardIndex={3} // Third card
+          imageSize="small"
+          cardIndex={3}
         />
-
-        {/* Second row */}
         <CategoryCard
-          title="Home Appliances"
-          category="Household Items"
-          image={Household}
+          title="Accessories"
+          category="Comfort & Style"
+          image={C4}
           bgColor="bg-[#f2e7e3]"
           Color="text-[#e5d3c0]"
           alignImage="flex justify-center"
-          imageSize="medium" // Default size
-          cardIndex={4} // Fourth card
+          imageSize="large"
+          cardIndex={4}
         />
         <CategoryCard
-          title="Fitness Gear"
-          category="Health & Wellness"
-          image={Health}
+          title="Grooming Supplies"
+          category="Hygiene & Care"
+          image={C5}
           bgColor="bg-[#e3f2e6]"
           Color="text-[#79df7e]"
           alignImage="flex justify-center"
-          imageSize="medium" // Default size
-          cardIndex={5} // Fifth card
+          imageSize="medium"
+          cardIndex={5}
         />
         <div className="lg:col-span-2">
           <CategoryCard
-            title="Luxury Goods"
-            category="High-End Products"
-            image={Luxury}
+            title="Luxury Items"
+            category="Premium Products"
+            image={C6}
             cta="Show More"
             bgColor="bg-[#fae8e8]"
             Color="text-[#de8a8d]"
             alignImage="flex justify-end"
-            imageSize="large" // Larger image
-            imageAlignment="right" // Align image to the right
-            cardIndex={6} // Sixth card
+            imageSize="large"
+            imageAlignment="right"
+            cardIndex={6}
           />
         </div>
       </div>

@@ -6,21 +6,40 @@ import { useAuth } from "../hooks/AuthContext";
 
 const VerifyEmailOTPPage = () => {
   const { email } = useParams();
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(new Array(6).fill(""));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [timer, setTimer] = useState(60);
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleOtpChange = (e) => setOtp(e.target.value);
+  const handleOtpChange = (element, index) => {
+    const value = element.value;
+    if (!/^[0-9]?$/.test(value)) return; // Ensure only numeric values
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Automatically focus on the next input
+    if (value && index < 5) {
+      document.getElementById(`otp-${index + 1}`).focus();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      document.getElementById(`otp-${index - 1}`).focus();
+    }
+  };
 
   const handleVerifyClick = async () => {
-    if (!otp) {
+    const enteredOtp = otp.join("");
+    if (enteredOtp.length < 6) {
       Swal.fire({
         icon: "error",
         title: "OTP Required",
-        text: "Please enter the OTP sent to your email.",
+        text: "Please enter the complete 6-digit OTP sent to your email.",
       });
       return;
     }
@@ -31,12 +50,11 @@ const VerifyEmailOTPPage = () => {
         "http://localhost:4000/api/auth/verify-otp",
         {
           email,
-          otp,
+          otp: enteredOtp,
         }
       );
 
       const token = response.data.token;
-
       login(token);
 
       Swal.fire({
@@ -44,7 +62,7 @@ const VerifyEmailOTPPage = () => {
         title: "OTP Verified",
         text: "Your email has been verified successfully!",
       }).then(() => {
-        navigate("/uprofile");
+        navigate("/");
       });
     } catch (error) {
       console.error(
@@ -119,18 +137,19 @@ const VerifyEmailOTPPage = () => {
           Enter the OTP sent to <span className="font-semibold">{email}</span>{" "}
           to complete the verification.
         </p>
-        <div className="mb-6">
-          <label htmlFor="otp" className="block text-gray-700 mb-2">
-            OTP
-          </label>
-          <input
-            type="text"
-            id="otp"
-            value={otp}
-            onChange={handleOtpChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#060640] focus:border-[#060640]"
-            required
-          />
+        <div className="mb-6 flex justify-between">
+          {otp.map((digit, index) => (
+            <input
+              key={index}
+              id={`otp-${index}`}
+              type="text"
+              value={digit}
+              onChange={(e) => handleOtpChange(e.target, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              className="w-12 h-12 text-center text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-[#060640] focus:border-[#060640]"
+              maxLength={1}
+            />
+          ))}
         </div>
         <div className="flex justify-between items-center mt-4">
           <button

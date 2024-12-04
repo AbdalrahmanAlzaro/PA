@@ -36,14 +36,6 @@ module.exports = {
         defaultValue: false,
         allowNull: false,
       },
-      phoneNumber: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      businessName: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
       otp: {
         type: Sequelize.STRING,
         allowNull: true,
