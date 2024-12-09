@@ -36,9 +36,7 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product) => {
     const updatedCart = [...cartItems];
-    const existingProduct = updatedCart.find(
-      (item) => item.name === product.name
-    );
+    const existingProduct = updatedCart.find((item) => item.id === product.id);
 
     if (existingProduct) {
       existingProduct.quantity += 1;
