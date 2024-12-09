@@ -2,9 +2,12 @@ const { Services } = require("../models");
 
 const createService = async (req, res) => {
   try {
-    const { title, category, subcategory, address, description, contact } =
-      req.body;
+    const { title, category, description, price } = req.body;
     const userId = req.userId;
+
+    if (!price || isNaN(price) || price <= 0) {
+      return res.status(400).json({ message: "Valid price is required." });
+    }
 
     if (
       !req.files ||
@@ -23,10 +26,8 @@ const createService = async (req, res) => {
       userId,
       title,
       category,
-      subcategory: subcategory || null,
-      address,
       description,
-      contact,
+      price,
       mainImage,
       subImages,
     });
@@ -62,12 +63,13 @@ const getAllServices = async (req, res) => {
 
 const updateService = async (req, res) => {
   try {
-    const { title, category, subcategory, address, description, contact, id } =
-      req.body;
+    const { title, category, description, price, id } = req.body;
     const serviceId = id;
     const userId = req.userId;
 
-    const service = await Services.findOne({ _id: serviceId, userId });
+    const service = await Services.findOne({
+      where: { id: serviceId, userId },
+    });
 
     if (!service) {
       return res.status(404).json({ message: "Service not found" });
@@ -75,10 +77,8 @@ const updateService = async (req, res) => {
 
     if (title) service.title = title;
     if (category) service.category = category;
-    if (subcategory) service.subcategory = subcategory;
-    if (address) service.address = address;
     if (description) service.description = description;
-    if (contact) service.contact = contact;
+    if (price && !isNaN(price) && price > 0) service.price = price;
 
     if (req.files && req.files.mainImage) {
       service.mainImage = req.files.mainImage[0].path;
@@ -104,14 +104,14 @@ const updateService = async (req, res) => {
 
 const deleteService = async (req, res) => {
   try {
-    const { id } = req.body; // Get service ID from the body
+    const { id } = req.body;
     const userId = req.userId;
 
     if (!id) {
       return res.status(400).json({ message: "Service ID is required" });
     }
 
-    const service = await Services.findOne({ _id: id, userId });
+    const service = await Services.findOne({ where: { id, userId } });
 
     if (!service) {
       return res.status(404).json({ message: "Service not found" });

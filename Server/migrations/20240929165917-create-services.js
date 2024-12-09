@@ -26,20 +26,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      subcategory: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      address: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       description: {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      contact: {
-        type: Sequelize.STRING,
+      price: {
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
       mainImage: {

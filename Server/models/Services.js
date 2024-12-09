@@ -31,24 +31,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      subcategory: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      address: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       description: {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-      contact: {
+      mainImage: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      mainImage: {
-        type: DataTypes.STRING,
+      price: {
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       subImages: {

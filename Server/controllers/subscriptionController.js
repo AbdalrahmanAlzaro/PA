@@ -180,7 +180,7 @@ exports.updateSubscriptionStatus = async (req, res) => {
         });
 
         const mailOptions = {
-          from: "islamomar0003@gmail.com",
+          from: "Purrrfect Match",
           to: user.email,
           subject: "Your Subscription Status Update",
           text:

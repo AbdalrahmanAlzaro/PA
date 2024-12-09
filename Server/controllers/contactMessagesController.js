@@ -54,10 +54,10 @@ async function sendReply(userEmail, userName, userReply) {
   });
 
   const mailOptions = {
-    from: "islamomar0003@gmail.com",
+    from: "Purrrfect Match",
     to: userEmail,
     subject: "Thank You for Your Message",
-    text: `Hi ${userName},\n\nThank you for reaching out to us. Here is your reply:\n\n"${userReply}"\n\nWe will get back to you soon!\n\nBest regards,\nYour RateMate`,
+    text: `Hi ${userName},\n\nThank you for reaching out to us. Here is your reply:\n\n"${userReply}"\n\nWe will get back to you soon!\n\nBest regards,\nYour Purrrfect Match`,
   };
 
   return transporter
