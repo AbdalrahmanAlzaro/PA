@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import axios from "axios";
 import { useCart } from "../../hooks/CartContext";
-import { ToastContainer, toast } from "react-toastify"; // Corrected import
-import "react-toastify/dist/ReactToastify.css"; // Ensure this CSS is imported
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TopRated = () => {
   const [products, setProducts] = useState([]);
@@ -21,13 +21,13 @@ const TopRated = () => {
 
   const handleAddToCart = (product) => {
     addToCart({
+      id: product.id,
       name: product.title,
       price: product.price,
       mainImage: product.mainImage,
       quantity: 1,
     });
 
-    // Show a toast notification
     toast.success(`${product.title} has been added to the cart!`, {
       position: "top-right",
       autoClose: 3000,
@@ -42,7 +42,6 @@ const TopRated = () => {
   return (
     <>
       <ToastContainer />{" "}
-      {/* Make sure the ToastContainer is inside the component JSX */}
       <div className="pt-[50rem] mt-16 px-4 sm:px-8 lg:pt-16 xl:px-40">
         <div className="flex flex-col sm:flex-row sm:justify-between items-center">
           <h2 className="text-lg sm:text-xl mr-4 font-semibold text-[#060640]">
@@ -73,7 +72,7 @@ const TopRated = () => {
       </div>
       <div className="mt-10 px-4 sm:px-8 xl:px-40">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
-          {products.map((product) => (
+          {products.slice(0.8).map((product) => (
             <div
               key={product.id}
               className="bg-gray-100 rounded-2xl p-5 cursor-pointer hover:-translate-y-2 transition-all relative"
