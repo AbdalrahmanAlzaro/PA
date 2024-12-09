@@ -6,12 +6,6 @@ import C3 from "../../assets/Image/C3.png";
 import C4 from "../../assets/Image/C4.png";
 import C5 from "../../assets/Image/C5.png";
 import C6 from "../../assets/Image/C6.png";
-import Restaurant from "../../assets/images/rest.avif.png";
-import Electronics from "../../assets/images/Electronics.jpg.png";
-import Apparel from "../../assets/images/Apparel.jpg.png";
-import Household from "../../assets/images/Household.jpg.png";
-import Health from "../../assets/images/Health & Wellness.jpg.png";
-import Luxury from "../../assets/images/LOislam.png";
 
 const CategoryCard = ({
   title,
@@ -43,7 +37,7 @@ const CategoryCard = ({
         <div className="text-sm text-gray-500 ">{category}</div>
         <div className={`text-2xl font-bold ${Color}`}>{title}</div>
         {cta && (
-          <Link to="/category/list">
+          <Link to="/shop">
             <button className="mt-4 py-2 px-4 bg-[#FA5990]  hover:opacity-80 w-36 text-white rounded-3xl">
               {cta}
             </button>

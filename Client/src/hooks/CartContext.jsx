@@ -1,43 +1,114 @@
-import React, { createContext, useContext, useState } from "react";
+// CartContext.jsx
+import React, { createContext, useState, useEffect, useContext } from "react";
 
-const CartContext = createContext();
-
-export const useCart = () => useContext(CartContext);
+export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [cartNavRefresh, setCartNavRefresh] = useState(0);
+
+  useEffect(() => {
+    const storedItems = localStorage.getItem("Carts");
+
+    if (storedItems) {
+      const parsedItems = JSON.parse(storedItems);
+      setCartItems(parsedItems);
+
+      const totalQuantity = parsedItems.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+      setCartNavRefresh(totalQuantity);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      localStorage.setItem("Carts", JSON.stringify(cartItems));
+    }
+
+    const totalQuantity = cartItems.reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
+    setCartNavRefresh(totalQuantity);
+  }, [cartItems]);
 
   const addToCart = (product) => {
-    setCartItems((prevItems) => {
-      const existingItemIndex = prevItems.findIndex(
-        (item) => item.id === product.id
-      );
+    const updatedCart = [...cartItems];
+    const existingProduct = updatedCart.find(
+      (item) => item.name === product.name
+    );
 
-      if (existingItemIndex > -1) {
-        // Item already exists, update quantity
-        const updatedItems = [...prevItems];
-        updatedItems[existingItemIndex].quantity += 1;
-        return updatedItems;
-      }
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    } else {
+      updatedCart.push({ ...product, quantity: 1 });
+    }
 
-      // Item doesn't exist, add new item
-      return [...prevItems, { ...product, quantity: 1 }];
-    });
+    setCartItems(updatedCart);
   };
 
-  const removeFromCart = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const increaseQuantity = (productName) => {
+    const updatedCart = cartItems.map((item) =>
+      item.name === productName
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    );
+    setCartItems(updatedCart);
   };
 
-  const totalAmount = cartItems
-    .reduce((total, item) => total + item.price * item.quantity, 0)
-    .toFixed(2);
+  const decreaseQuantity = (productName) => {
+    const updatedCart = cartItems.map((item) =>
+      item.name === productName && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    );
+    setCartItems(updatedCart);
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("Carts");
+    setCartNavRefresh(0);
+  };
+
+  const clearProduct = (productName) => {
+    const updatedCart = cartItems.filter((item) => item.name !== productName);
+    setCartItems(updatedCart);
+    localStorage.setItem("Carts", JSON.stringify(updatedCart));
+    const totalQuantity = updatedCart.reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
+    setCartNavRefresh(totalQuantity);
+  };
+
+  const calculateTotalPrice = () => {
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, totalAmount }}
+      value={{
+        cartItems,
+        cartNavRefresh,
+        addToCart,
+        increaseQuantity,
+        decreaseQuantity,
+        clearCart,
+        clearProduct,
+        calculateTotalPrice,
+      }}
     >
       {children}
     </CartContext.Provider>
   );
+};
+
+export const useCart = () => {
+  return useContext(CartContext);
 };
