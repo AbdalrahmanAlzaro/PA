@@ -18,6 +18,7 @@ import PricingPage from "./pages/pricing";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import VerifyEmailOTPPage from "./pages/VerifyEmailOTPPage";
 import ForgotPassword from "./pages/ForgotPassword";
+import Cart from "./pages/Cart";
 
 import { CartProvider } from "./hooks/CartContext";
 import SetNewPassword from "./pages/SetNewPassword";
@@ -55,6 +56,7 @@ const App = () => {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/about" element={<About />} />
             <Route path="/Verify-email" element={<VerifyEmailPage />} />
             <Route path="/forget-password" element={<ForgotPassword />} />
