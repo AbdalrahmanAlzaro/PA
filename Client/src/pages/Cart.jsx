@@ -78,7 +78,7 @@ const Cart = () => {
 
                 <button
                   className="text-[#fa5990] hover:opacity-80 transition-opacity"
-                  onClick={() => clearProduct(item.name)} // Clear individual product
+                  onClick={() => clearProduct(item.id)}
                 >
                   <Trash2 size={20} />
                 </button>
