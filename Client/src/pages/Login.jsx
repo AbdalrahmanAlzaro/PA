@@ -57,7 +57,7 @@ const Login = ({ isOpen, onClose, onSignUpOpen }) => {
           { email, password }
         );
         localStorage.setItem("authToken", response.data.token);
-        login(response.data.token); // Update auth context
+        login(response.data.token);
         Swal.fire({
           title: "Success!",
           text: "You have successfully logged in.",
@@ -68,7 +68,6 @@ const Login = ({ isOpen, onClose, onSignUpOpen }) => {
           navigate("/");
         });
       } catch (error) {
-        //... existing error handling
       } finally {
         setLoading(false);
       }
@@ -107,14 +106,14 @@ const Login = ({ isOpen, onClose, onSignUpOpen }) => {
         <div className="mb-4">
           <button
             onClick={handleGoogleSignIn}
-            className="w-full bg-[#060640] text-white font-bold py-2 px-4 rounded-lg hover:opacity-80 flex items-center justify-center mb-2"
+            className="w-full bg-[#300a3a] text-white font-bold py-2 px-4 rounded-lg hover:opacity-80 flex items-center justify-center mb-2"
           >
             <GoogleIcon />
             Log in with Google
           </button>
           <a
             href="http://localhost:4000/api/auth/facebook"
-            className="w-full bg-[#060640] text-white font-bold py-2 px-4 rounded-lg hover:opacity-80 flex items-center justify-center"
+            className="w-full bg-[#300a3a] text-white font-bold py-2 px-4 rounded-lg hover:opacity-80 flex items-center justify-center"
           >
             <FacebookIcon />
             Log in with Facebook
@@ -166,7 +165,7 @@ const Login = ({ isOpen, onClose, onSignUpOpen }) => {
           )}
           <button
             type="submit"
-            className="w-full bg-[#060640] text-white font-bold py-2 px-4 rounded-lg hover:bg-opacity-80"
+            className="w-full bg-[#300a3a] text-white font-bold py-2 px-4 rounded-lg hover:bg-opacity-80"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Log In"}

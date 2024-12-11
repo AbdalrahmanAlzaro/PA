@@ -121,14 +121,14 @@ const SignUp = ({ isOpen, onClose, onLoginOpen }) => {
         <div className="mb-4">
           <button
             onClick={handleGoogleSignIn}
-            className="w-full bg-[#060640] text-white font-bold py-2 px-4 rounded-lg hover:opacity-80 flex items-center justify-center mb-2"
+            className="w-full bg-[#300a3a] text-white font-bold py-2 px-4 rounded-lg hover:opacity-80 flex items-center justify-center mb-2"
           >
             <GoogleIcon />
             Sign up with Google
           </button>
           <a
             href="http://localhost:4000/api/auth/facebook"
-            className="w-full bg-[#060640] text-white font-bold py-2 px-4 rounded-lg hover:opacity-80 flex items-center justify-center"
+            className="w-full bg-[#300a3a] text-white font-bold py-2 px-4 rounded-lg hover:opacity-80 flex items-center justify-center"
           >
             <FacebookIcon />
             Log in with Facebook
@@ -191,7 +191,7 @@ const SignUp = ({ isOpen, onClose, onLoginOpen }) => {
           </div>
           <button
             type="submit"
-            className="w-full bg-[#060640] text-white font-bold py-2 px-4 rounded-lg hover:bg-opacity-80"
+            className="w-full bg-[#300a3a] text-white font-bold py-2 px-4 rounded-lg hover:bg-opacity-80"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Signing Up..." : "Sign Up"}

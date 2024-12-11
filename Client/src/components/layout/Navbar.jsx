@@ -176,24 +176,24 @@ const Navbar = () => {
 
           {isLoggedIn ? (
             <>
-              <div className="flex items-center" ref={menuRef}>
+              <div className="flex items-center relative" ref={menuRef}>
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsg0F0hqjo2pVSEgusU_JvJ4WOxd-U1QWMnw&usqp=CAU"
-                  alt="name"
-                  className="mr-4 rounded-full"
-                  style={{ width: "40px", height: "40px" }}
-                />{" "}
+                  alt="User avatar"
+                  className="mr-4 rounded-full w-10 h-10"
+                />
                 <FaChevronDown
                   className={`cursor-pointer transform transition-transform duration-150 ${
                     isDropdownOpen ? "rotate-180" : ""
                   }`}
                   onClick={toggleDropdown}
+                  aria-label="Toggle dropdown"
                 />
               </div>
               {isDropdownOpen && (
                 <div
                   ref={dropdownRef}
-                  className="absolute mt-28 right-0 w-48 bg-white rounded-md shadow-lg py-2"
+                  className="absolute mt-2 right-0 w-48 bg-white rounded-md shadow-lg py-2"
                 >
                   <div
                     onClick={logout}
@@ -207,15 +207,31 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <div className="flex items-center md:block">
+              <div className="flex items-center md:justify-end space-x-4">
                 <button
                   onClick={openLogin}
-                  className="hidden md:block bg-[#060640] hover:bg-[#060640] hover:opacity-80 text-white font-bold h-8 px-4 rounded-3xl mr-2"
+                  className="bg-[#300a3a] hover:opacity-80 text-white font-bold h-8 px-4 rounded-3xl"
                 >
-                  LogIn
+                  Log In
                 </button>
+                <li className="relative list-none lg:hidden md:hidden">
+                  <NavLink
+                    to="/cart"
+                    className={({ isActive }) =>
+                      `flex items-center ${
+                        isActive
+                          ? "text-gray-900 underline font-bold"
+                          : "text-gray-700 hover:text-gray-900"
+                      }`
+                    }
+                  >
+                    <span className="absolute -top-1 -right-5 flex items-center justify-center w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full">
+                      {cartNavRefresh}
+                    </span>
+                    <ShoppingCart size={20} />
+                  </NavLink>
+                </li>
               </div>
-
               <Login
                 isOpen={isLoginOpen}
                 onClose={closeLogin}
@@ -228,6 +244,7 @@ const Navbar = () => {
               />
             </>
           )}
+
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button
@@ -305,70 +322,71 @@ const Navbar = () => {
                     >
                       Home
                     </NavLink>
-                  </li>
-
+                  </li>{" "}
                   <li className="px-6 py-3">
-                    {isLoggedIn ? (
-                      <>
-                        <div className="flex items-center" ref={menuRef}>
-                          <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsg0F0hqjo2pVSEgusU_JvJ4WOxd-U1QWMnw&usqp=CAU"
-                            alt="name"
-                            className="mr-4 rounded-full"
-                            style={{ width: "40px", height: "40px" }}
-                          />{" "}
-                          <FaChevronDown
-                            className={`cursor-pointer transform transition-transform duration-150 ${
-                              isDropdownOpen ? "rotate-180" : ""
-                            }`}
-                            onClick={toggleDropdown}
-                          />
-                        </div>
-                        {isDropdownOpen && (
-                          <div
-                            ref={dropdownRef}
-                            className="absolute mt-12 w-48 bg-white rounded-md shadow-lg py-2"
-                          >
-                            <Link to="/uprofile">
-                              <div
-                                className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
-                                onClick={handleProfileClick}
-                              >
-                                <FiUser className="mr-2" />
-                                <span>Profile</span>
-                              </div>
-                            </Link>
-                            <div
-                              onClick={logout}
-                              className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
-                            >
-                              <FiLogOut className="mr-2" /> <span>Logout</span>
-                            </div>
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        <div className="flex items-center  md:block">
-                          <button
-                            onClick={openLogin}
-                            className="bg-[#060640] hover:bg-[#060640] hover:opacity-80 text-white font-bold h-8 px-4 rounded-3xl mr-2"
-                          >
-                            LogIn
-                          </button>
-                        </div>
-                        <Login
-                          isOpen={isLoginOpen}
-                          onClose={closeLogin}
-                          onSignUpOpen={openSignUp}
-                        />
-                        <Signup
-                          isOpen={isSignUpOpen}
-                          onClose={closeSignUp}
-                          onLoginOpen={openLogin}
-                        />
-                      </>
-                    )}
+                    <NavLink
+                      to="/shop"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
+                          : "block text-gray-700 hover:text-gray-900  pl-4"
+                      }
+                      onClick={toggleMobileMenu}
+                    >
+                      Our Shop
+                    </NavLink>
+                  </li>{" "}
+                  <li className="px-6 py-3">
+                    <NavLink
+                      to="/adoption"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
+                          : "block text-gray-700 hover:text-gray-900  pl-4"
+                      }
+                      onClick={toggleMobileMenu}
+                    >
+                      Adoption
+                    </NavLink>
+                  </li>{" "}
+                  <li className="px-6 py-3">
+                    <NavLink
+                      to="/about"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
+                          : "block text-gray-700 hover:text-gray-900  pl-4"
+                      }
+                      onClick={toggleMobileMenu}
+                    >
+                      Our Vision
+                    </NavLink>
+                  </li>{" "}
+                  <li className="px-6 py-3">
+                    <NavLink
+                      to="/contact"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
+                          : "block text-gray-700 hover:text-gray-900  pl-4"
+                      }
+                      onClick={toggleMobileMenu}
+                    >
+                      Get In Touch
+                    </NavLink>
+                  </li>{" "}
+                  <li className="px-6 py-3">
+                    <NavLink
+                      to="/treatment"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block text-gray-800 font-semibold border-l-4 border-[#060640] pl-4"
+                          : "block text-gray-700 hover:text-gray-900  pl-4"
+                      }
+                      onClick={toggleMobileMenu}
+                    >
+                      Treatment
+                    </NavLink>
                   </li>
                 </ul>
               </motion.div>
