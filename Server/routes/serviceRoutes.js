@@ -7,6 +7,7 @@ const {
   getAllServices,
   updateService,
   deleteService,
+  getServiceById,
 } = require("../controllers/serviceController");
 
 const router = express.Router();
@@ -30,6 +31,8 @@ router.put(
   ]),
   updateService
 );
+
+router.get("/services/:id", getServiceById);
 
 router.delete("/services-delete", verifyToken, deleteService);
 

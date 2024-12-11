@@ -1,4 +1,3 @@
-// CartContext.jsx
 import React, { createContext, useState, useEffect, useContext } from "react";
 
 export const CartContext = createContext();
@@ -72,7 +71,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearProduct = (productName) => {
-    const updatedCart = cartItems.filter((item) => item.name !== productName);
+    const updatedCart = cartItems.filter((item) => item.id !== productName);
     setCartItems(updatedCart);
     localStorage.setItem("Carts", JSON.stringify(updatedCart));
     const totalQuantity = updatedCart.reduce(

@@ -5,7 +5,6 @@ import Hero from "../components/home/Hero";
 import CategorySectoin from "../components/home/CategorySectoin";
 import TopRated from "../components/home/TopRated";
 import FeaturedSection from "../components/home/FeaturedSection";
-import ReviewSection from "../components/home/ReviewSection";
 
 const Home = () => {
   return (
@@ -14,7 +13,6 @@ const Home = () => {
       <CategorySectoin />
       <TopRated />
       <FeaturedSection />
-      {/* <ReviewSection /> */}
     </div>
   );
 };

@@ -9,6 +9,8 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -16,7 +18,7 @@ const Shop = () => {
       .get("http://localhost:4000/api/all-services")
       .then((response) => {
         setProducts(response.data);
-        setFilteredProducts(response.data); // Set initial filtered products to all products
+        setFilteredProducts(response.data);
         console.log(response.data);
       })
       .catch((error) => console.error("Error fetching products:", error));
@@ -52,6 +54,23 @@ const Shop = () => {
       draggable: true,
       progress: undefined,
     });
+  };
+
+  const handleViewMore = (productId) => {
+    axios
+      .get(`http://localhost:4000/api/services/${productId}`)
+      .then((response) => {
+        setSelectedProduct(response.data);
+        setIsModalOpen(true);
+      })
+      .catch((error) =>
+        console.error("Error fetching product details:", error)
+      );
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
   };
 
   return (
@@ -109,7 +128,13 @@ const Shop = () => {
                   </h3>
                   <p className="text-gray-600 text-sm mt-2">
                     {product.description}
-                  </p>
+                  </p>{" "}
+                  <button
+                    onClick={() => handleViewMore(product.id)}
+                    className="text-blue-600 hover:underline mt-2 inline-block"
+                  >
+                    View More
+                  </button>
                   <h4 className="text-lg text-gray-800 font-bold mt-4">
                     ${product.price.toFixed(2)}
                   </h4>
@@ -119,6 +144,48 @@ const Shop = () => {
           </div>
         )}
       </div>
+
+      {isModalOpen && selectedProduct && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-90 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg p-8 w-full max-w-lg relative">
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+            >
+              ✕
+            </button>
+            <div className="flex flex-col items-center">
+              <div className="w-full">
+                <img
+                  src={`http://localhost:4000/${selectedProduct.mainImage}`}
+                  alt={selectedProduct.title}
+                  className="w-full h-auto mb-4 object-cover rounded-lg"
+                />
+                <h3 className="text-lg font-extrabold text-gray-800">
+                  {selectedProduct.title}
+                </h3>
+                <p className="text-gray-600 text-sm mt-2">
+                  {selectedProduct.description}
+                </p>
+                <h4 className="text-lg text-gray-800 font-bold mt-4">
+                  ${selectedProduct.price.toFixed(2)}
+                </h4>
+              </div>
+
+              <div className="mt-4 flex space-x-4 overflow-x-auto">
+                {selectedProduct.subImages.map((subImage, index) => (
+                  <img
+                    key={index}
+                    src={`http://localhost:4000/${subImage}`}
+                    alt={`Sub Image ${index + 1}`}
+                    className="w-20 h-20 object-cover rounded-lg"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

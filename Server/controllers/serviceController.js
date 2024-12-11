@@ -61,6 +61,25 @@ const getAllServices = async (req, res) => {
   }
 };
 
+const getServiceById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const service = await Services.findByPk(id);
+
+    if (!service) {
+      return res.status(404).json({ message: "Service not found." });
+    }
+
+    res.status(200).json(service);
+  } catch (error) {
+    console.error("Error retrieving service by ID:", error);
+    res
+      .status(500)
+      .json({ message: "Error retrieving service", error: error.message });
+  }
+};
+
 const updateService = async (req, res) => {
   try {
     const { title, category, description, price, id } = req.body;
@@ -132,4 +151,5 @@ module.exports = {
   updateService,
   getAllServices,
   deleteService,
+  getServiceById,
 };
