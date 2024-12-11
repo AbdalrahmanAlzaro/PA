@@ -20,6 +20,7 @@ import VerifyEmailOTPPage from "./pages/VerifyEmailOTPPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
+import Checkout from "./pages/CheckOut";
 
 import { CartProvider } from "./hooks/CartContext";
 import SetNewPassword from "./pages/SetNewPassword";
@@ -58,6 +59,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/about" element={<About />} />
             <Route path="/Verify-email" element={<VerifyEmailPage />} />
