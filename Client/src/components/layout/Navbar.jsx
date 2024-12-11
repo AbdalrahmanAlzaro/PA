@@ -193,7 +193,7 @@ const Navbar = () => {
               {isDropdownOpen && (
                 <div
                   ref={dropdownRef}
-                  className="absolute mt-2 right-0 w-48 bg-white rounded-md shadow-lg py-2"
+                  className="absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50"
                 >
                   <div
                     onClick={logout}

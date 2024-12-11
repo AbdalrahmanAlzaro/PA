@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Icon from "@mdi/react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { mdiStarCircleOutline, mdiStar } from "@mdi/js";
+import { mdiDog, mdiCat, mdiPaw } from "@mdi/js";
 import { Link } from "react-router-dom";
 
 const AboutSection = () => {
@@ -17,21 +17,22 @@ const AboutSection = () => {
         <div className="lg:w-1/2 md:w-full ml-5 mt-1" data-aos="fade-left">
           <h5 className="text-lg font-bold text-gray-600">ABOUT US</h5>
           <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 mt-4">
-            RateMate - Rating Platform
+            Purrrfect Match - Animal Care Platform
           </h1>
           <p className="text-gray-600 mt-6 leading-relaxed">
-            Welcome to RateMate, your go-to platform for insightful ratings and
-            reviews in Jordan. At RateMate, we are dedicated to helping you make
-            informed decisions by providing comprehensive and reliable ratings
-            for various services and products. Our mission is to offer a
-            transparent and user-friendly platform where you can share and
-            explore honest feedback on your favorite places and experiences.
+            Welcome to Purrrfect Match, your dedicated platform for animal care,
+            products, and veterinary services. At Purrrfect Match, we strive to
+            provide a comprehensive and reliable space for pet owners and animal
+            lovers to discover and share insights on animal-related services and
+            products. Our mission is to offer a user-friendly and transparent
+            platform where you can explore reviews and ratings tailored to your
+            pet’s needs.
           </p>
           <Link
-            to={"/review"}
-            className="inline-block px-6 py-3 border-2 border-[#060640] text-white font-medium text-sm uppercase rounded-lg mt-6 bg-[#060640] hover:bg-transparent hover:text-[#060640] focus:outline-none transition duration-300 ease-in-out"
+            to={"/shop"}
+            className="inline-block px-6 py-3 border-2 border-[#31043d] text-white font-medium text-sm uppercase rounded-lg mt-6 bg-[#31043d] hover:bg-transparent hover:text-[#31043d] focus:outline-none transition duration-300 ease-in-out"
           >
-            Explore Ratings Now
+            Explore Now
           </Link>
         </div>
 
@@ -40,45 +41,41 @@ const AboutSection = () => {
           className="lg:w-1/2 flex flex-col md:flex-row justify-center lg:justify-between items-center space-y-10 lg:space-y-0"
           data-aos="fade-right"
         >
-          {/* Top-Rated Spots */}
+          {/* Top-Rated Products */}
           <div className="w-full lg:w-1/2 flex flex-col items-center text-center">
             <div className="mb-4">
-              <Icon path={mdiStar} className="text-[#060640]" size={2} />
+              <Icon path={mdiPaw} className="text-[#31043d]" size={2} />
             </div>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-3">
-              Top-Rated Spots
+            <h3 className="text-2xl font-semibold text-[#31043d] mb-3">
+              Top-Rated Products
             </h3>
             <p className="text-gray-600">
-              Discover the highest-rated places and services in Jordan,
-              handpicked by our community of reviewers.
+              Discover the highest-rated pet products and accessories in Jordan,
+              selected by our community of animal lovers.
             </p>
             <img
-              src="./src/assets/images/home.jpg"
-              alt="Top-rated places"
+              src="https://img.freepik.com/free-vector/veterinarians-examining-dog-vet-clinic_1262-21437.jpg?t=st=1733912851~exp=1733916451~hmac=ae482993aa42ccee8d291b7b4268303fd4451be340704479c20e7845ef87053a&w=826"
+              alt="Top-rated products"
               className="mt-6 w-3/4 rounded-lg shadow-md"
             />
           </div>
 
-          {/* Exclusive Reviews */}
+          {/* Veterinary Services */}
           <div className="w-full lg:w-1/2 flex flex-col items-center text-center">
             <img
-              src="./src/assets/images/rest.jpg"
-              alt="Exclusive reviews"
+              src="https://img.freepik.com/premium-vector/homeless-pets-care-adoption-charity-volunteering-animals-vector_125133-2812.jpg?ga=GA1.1.905776187.1727602890&semt=ais_hybrid"
+              alt="Veterinary services"
               className="mb-6 w-3/4 rounded-lg shadow-md"
             />
             <div className="mb-4">
-              <Icon
-                path={mdiStarCircleOutline}
-                className="text-[#060640]"
-                size={2}
-              />
+              <Icon path={mdiDog} className="text-[#31043d]" size={2} />
             </div>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-3">
-              Exclusive Reviews
+            <h3 className="text-2xl font-semibold text-[#31043d] mb-3">
+              Veterinary Services
             </h3>
             <p className="text-gray-600">
-              Explore exclusive reviews and insights on the best places to visit
-              and the top services to use, all rated by real users.
+              Explore top-rated veterinary clinics and services for your pets,
+              reviewed and recommended by fellow pet owners.
             </p>
           </div>
         </div>

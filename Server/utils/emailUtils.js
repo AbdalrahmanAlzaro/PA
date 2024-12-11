@@ -12,7 +12,7 @@ const sendEmail = async (email, subject, message) => {
     });
 
     const mailOptions = {
-      from: "RateMate",
+      from: "Purrrfect Match",
       to: email,
       subject: subject,
       text: message,
