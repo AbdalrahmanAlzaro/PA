@@ -58,16 +58,8 @@ const Shop = () => {
     <>
       <ToastContainer />
       <div className="mt-10 px-4 sm:px-8 xl:px-40">
-        <div className="flex justify-center mb-4 space-x-2">
-          {[
-            "all",
-            "accessories",
-            "food",
-            "Cats",
-            "Kittens",
-            "Dogs",
-            "Puppies",
-          ].map((category) => (
+        <div className="flex justify-center mb-10 space-x-2">
+          {["all", "accessories", "food"].map((category) => (
             <button
               key={category}
               className={`px-6 py-2 rounded-lg text-black font-semibold transition-all duration-300 ${
