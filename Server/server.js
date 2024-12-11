@@ -6,6 +6,8 @@ const path = require("path");
 
 const authRoutes = require("./routes/authRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
+const contactMessagesRoutes = require("./routes/contactMessagesRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 
 dotenv.config();
 
@@ -34,6 +36,8 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api", serviceRoutes);
+app.use("/api", contactMessagesRoutes);
+app.use("/api", contactRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
