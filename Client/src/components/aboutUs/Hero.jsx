@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import "./Styling.css"; // Ensure you have appropriate styles
+import "./Styling.css";
 
 const Hero = () => {
   const images = [
-    "./src/assets/images/rest.jpg", // Replace with your image paths
-    "./src/assets/images/home.jpg",
-    "./src/assets/images/auto.jpg",
-    // Add more images as needed
+    "https://img.freepik.com/premium-photo/friendship_1048944-23642584.jpg?w=826",
+    "https://img.freepik.com/premium-photo/medium-shot-doctor-cat-owner-clinic_23-2148302190.jpg?ga=GA1.1.905776187.1727602890&semt=ais_hybrid",
+    "https://img.freepik.com/premium-photo/cropped-close-up-professional-vet-examining-little-siberian-husky-puppy-using-stethoscope-her-vet-clinic-professionalism-medical-concept_7502-5612.jpg?ga=GA1.1.905776187.1727602890&semt=ais_hybrid",
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -16,9 +15,9 @@ const Hero = () => {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
-    }, 1000); // Change image every 1 second
+    }, 1000);
 
-    return () => clearInterval(interval); // Cleanup on component unmount
+    return () => clearInterval(interval);
   }, [images.length]);
 
   return (
@@ -33,13 +32,13 @@ const Hero = () => {
       <div className="relative flex justify-center items-center w-full h-full bg-black bg-opacity-60">
         <div className="text-center">
           <h1 className="text-7xl font-bold font-serif text-white mb-4">
-            About <span className="text-[#FADED9]">RateMate</span>
+            About <span className="text-[#FA5990]">Purrrfect Match</span>
           </h1>
           <p className="text-lg text-white opacity-80 mb-8">
             Discover the journey, the passion, and the innovation behind
-            RateMate.
+            Purrrfect Match.
           </p>
-          <button className="px-6 py-3 bg-[#FADED9] text-[#060640] font-semibold rounded-lg shadow-lg transform transition-transform hover:scale-105">
+          <button className="px-6 py-3 bg-[#FA5990] text-white font-semibold rounded-lg shadow-lg transform transition-transform hover:scale-105">
             Learn More
           </button>
         </div>
