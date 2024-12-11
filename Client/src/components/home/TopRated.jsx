@@ -123,7 +123,7 @@ const TopRated = () => {
                 </h4>
                 <button
                   onClick={() => handleViewMore(product.id)}
-                  className="text-blue-600 hover:underline mt-2 inline-block"
+                  className="text-[#FA5990] hover:underline mt-2 inline-block"
                 >
                   View More
                 </button>

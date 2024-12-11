@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import axios from "axios";
 import { useCart } from "../hooks/CartContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Hero from "../components/Shop/Hero";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -11,7 +12,12 @@ const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { addToCart } = useCart();
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8; // Number of items to display per page
 
   useEffect(() => {
     axios
@@ -24,16 +30,39 @@ const Shop = () => {
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+  // Combined filter function for category and search
+  const filterProducts = (products, category, search) => {
+    return products.filter((product) => {
+      const categoryMatch = category === "all" || product.category === category;
+      const searchMatch = product.title
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      return categoryMatch && searchMatch;
+    });
+  };
+
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    if (category === "all") {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter(
-        (product) => product.category === category
-      );
-      setFilteredProducts(filtered);
-    }
+    const filtered = filterProducts(products, category, searchTerm);
+    setFilteredProducts(filtered);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (e) => {
+    const search = e.target.value;
+    setSearchTerm(search);
+    const filtered = filterProducts(products, selectedCategory, search);
+    setFilteredProducts(filtered);
+    setCurrentPage(1);
   };
 
   const handleAddToCart = (product) => {
@@ -73,78 +102,129 @@ const Shop = () => {
     setSelectedProduct(null);
   };
 
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   return (
     <>
       <ToastContainer />
+      <Hero />
       <div className="mt-10 px-4 sm:px-8 xl:px-40">
-        <div className="flex justify-center mb-10 space-x-2">
-          {["all", "accessories", "food"].map((category) => (
-            <button
-              key={category}
-              className={`px-6 py-2 rounded-lg text-black font-semibold transition-all duration-300 ${
-                selectedCategory === category
-                  ? "bg-[#fa5990] shadow-lg"
-                  : "bg-gray-200 text-gray-800 hover:bg-[#fa5990] hover:text-white"
-              }`}
-              onClick={() => handleCategoryChange(category)}
-            >
-              {category.charAt(0).toUpperCase() + category.slice(1)}
-            </button>
-          ))}
+        {/* Search and Category Container */}
+        <div className="flex flex-col sm:flex-row justify-center items-center mb-10 space-y-4 sm:space-y-0 sm:space-x-4">
+          {/* Search Input */}
+          <div className="relative w-full max-w-md">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fa5990]"
+            />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
+          </div>
+
+          {/* Category Buttons */}
+          <div className="flex space-x-2">
+            {["all", "accessories", "food"].map((category) => (
+              <button
+                key={category}
+                className={`px-6 py-2 rounded-lg text-black font-semibold transition-all duration-300 ${
+                  selectedCategory === category
+                    ? "bg-[#fa5990] shadow-lg text-white"
+                    : "bg-gray-200 text-gray-800 hover:bg-[#fa5990] hover:text-white"
+                }`}
+                onClick={() => handleCategoryChange(category)}
+              >
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Display message when no products are found */}
         {filteredProducts.length === 0 ? (
           <div className="text-center text-gray-500 mt-6">
             <h2 className="text-2xl font-semibold">
-              No products found in this category.
+              No products found in this category or matching your search.
             </h2>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
-            {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="bg-gray-100 rounded-2xl p-5 cursor-pointer hover:-translate-y-2 transition-all relative"
-              >
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6 mb-8">
+              {currentProducts.map((product) => (
                 <div
-                  className="bg-gray-100 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4"
-                  onClick={() => handleAddToCart(product)}
+                  key={product.id}
+                  className="bg-gray-100 rounded-2xl p-5 cursor-pointer hover:-translate-y-2 transition-all relative"
                 >
-                  <ShoppingCart className="w-5 h-5 text-gray-800" />
-                </div>
-
-                <div className="w-5/6 h-[210px] overflow-hidden mx-auto aspect-w-16 aspect-h-8 md:mb-2 mb-4">
-                  <img
-                    src={`http://localhost:4000/${product.mainImage}`}
-                    alt={product.title}
-                    className="h-full w-full object-contain"
-                  />
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-extrabold text-gray-800">
-                    {product.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm mt-2">
-                    {product.description}
-                  </p>{" "}
-                  <button
-                    onClick={() => handleViewMore(product.id)}
-                    className="text-blue-600 hover:underline mt-2 inline-block"
+                  <div
+                    className="bg-gray-100 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4"
+                    onClick={() => handleAddToCart(product)}
                   >
-                    View More
-                  </button>
-                  <h4 className="text-lg text-gray-800 font-bold mt-4">
-                    ${product.price.toFixed(2)}
-                  </h4>
+                    <ShoppingCart className="w-5 h-5 text-gray-800" />
+                  </div>
+
+                  <div className="w-5/6 h-[210px] overflow-hidden mx-auto aspect-w-16 aspect-h-8 md:mb-2 mb-4">
+                    <img
+                      src={`http://localhost:4000/${product.mainImage}`}
+                      alt={product.title}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-extrabold text-gray-800">
+                      {product.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm mt-2">
+                      {product.description}
+                    </p>{" "}
+                    <button
+                      onClick={() => handleViewMore(product.id)}
+                      className="text-[#FA5990] hover:underline mt-2 inline-block"
+                    >
+                      View More
+                    </button>
+                    <h4 className="text-lg text-gray-800 font-bold mt-4">
+                      ${product.price.toFixed(2)}
+                    </h4>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center items-center space-x-4 mt-6">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="p-2 rounded-full bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft size={24} />
+              </button>
+
+              <span className="text-gray-700">
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="p-2 rounded-full bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          </>
         )}
       </div>
 
+      {/* Modal remains the same as in the original code */}
       {isModalOpen && selectedProduct && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-90 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-8 w-full max-w-lg relative">
