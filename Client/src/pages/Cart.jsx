@@ -29,9 +29,9 @@ const Cart = () => {
         </div>
       ) : (
         <div className="space-y-4">
-          {cartItems.map((item, index) => (
+          {cartItems.map((item) => (
             <div
-              key={index}
+              key={item.id}
               className="shadow-lg rounded-lg p-4 flex items-center transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
             >
               <div className="flex-shrink-0 mr-6">
@@ -53,7 +53,7 @@ const Cart = () => {
 
               <div className="flex items-center space-x-3 mx-6">
                 <button
-                  onClick={() => decreaseQuantity(item.name)}
+                  onClick={() => decreaseQuantity(item.id)}
                   className="text-[#fa5990] p-2 rounded-full hover:opacity-80 transition-opacity"
                 >
                   <Minus size={16} />
@@ -64,7 +64,7 @@ const Cart = () => {
                 </span>
 
                 <button
-                  onClick={() => increaseQuantity(item.name)}
+                  onClick={() => increaseQuantity(item.id)}
                   className="text-[#fa5990] p-2 rounded-full hover:opacity-80 transition-opacity"
                 >
                   <Plus size={16} />
@@ -98,7 +98,7 @@ const Cart = () => {
               Proceed to Checkout
             </button>
             <button
-              onClick={clearCart} // Button to clear the entire cart
+              onClick={clearCart}
               className="bg-[#fa5990] text-[#2d0939] px-8 py-3 rounded-lg hover:opacity-90 transition-opacity text-lg font-semibold shadow-md"
             >
               Clear Cart

@@ -15,7 +15,7 @@ const VerifyEmailOTPPage = () => {
 
   const handleOtpChange = (element, index) => {
     const value = element.value;
-    if (!/^[0-9]?$/.test(value)) return; // Ensure only numeric values
+    if (!/^[0-9]?$/.test(value)) return;
 
     const newOtp = [...otp];
     newOtp[index] = value;
@@ -154,14 +154,14 @@ const VerifyEmailOTPPage = () => {
         <div className="flex justify-between items-center mt-4">
           <button
             onClick={handleVerifyClick}
-            className="bg-[#060640] text-white font-semibold py-2 px-4 rounded shadow hover:opacity-85 transition-opacity duration-200"
+            className="bg-[#300a3a] text-white font-semibold py-2 px-4 rounded shadow hover:opacity-85 transition-opacity duration-200"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Verifying..." : "Verify"}
           </button>
           <button
             onClick={handleResendOtp}
-            className={`ml-4 bg-[#060640] text-white font-semibold py-2 px-4 rounded shadow hover:opacity-85 transition-opacity duration-200 ${
+            className={`ml-4 bg-[#300a3a] text-white font-semibold py-2 px-4 rounded shadow hover:opacity-85 transition-opacity duration-200 ${
               isResendDisabled ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={isResendDisabled}
