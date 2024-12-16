@@ -3,7 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import logo from "../assets/images/Logo2.png";
+import logo from "../assets/Svg/Logo.svg";
 import Login from "./Login";
 
 const SetNewPassword = () => {
@@ -81,7 +81,7 @@ const SetNewPassword = () => {
           />
           <button
             type="submit"
-            className="w-full p-2 bg-[#060640] text-white rounded hover:bg-opacity-80 transition"
+            className="w-full p-2 bg-[#300a3a] text-white rounded hover:bg-opacity-80 transition"
           >
             Update Password
           </button>

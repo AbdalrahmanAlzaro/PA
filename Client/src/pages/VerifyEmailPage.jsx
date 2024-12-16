@@ -5,7 +5,6 @@ const VerifyEmailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Extract email from the query string
   const searchParams = new URLSearchParams(location.search);
   const email = searchParams.get("email");
 
@@ -25,7 +24,7 @@ const VerifyEmailPage = () => {
         </p>
         <button
           onClick={handleVerifyClick}
-          className="bg-[#060640] text-white font-semibold py-2 px-4 rounded hover:opacity-85"
+          className="bg-[#300a3a] text-white font-semibold py-2 px-4 rounded hover:opacity-85"
         >
           Verify Email
         </button>
