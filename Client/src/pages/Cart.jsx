@@ -1,6 +1,7 @@
 import React from "react";
 import { useCart } from "../hooks/CartContext";
 import { Trash2, Plus, Minus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const {
@@ -94,9 +95,11 @@ const Cart = () => {
           </div>
 
           <div className="mt-6 text-center flex justify-center gap-4">
-            <button className="bg-[#2d0939] text-white px-8 py-3 rounded-lg hover:opacity-90 transition-opacity text-lg font-semibold shadow-md">
-              Proceed to Checkout
-            </button>
+            <Link to="/checkout">
+              <button className="bg-[#2d0939] text-white px-8 py-3 rounded-lg hover:opacity-90 transition-opacity text-lg font-semibold shadow-md">
+                Proceed to Checkout
+              </button>
+            </Link>
             <button
               onClick={clearCart}
               className="bg-[#fa5990] text-[#2d0939] px-8 py-3 rounded-lg hover:opacity-90 transition-opacity text-lg font-semibold shadow-md"
