@@ -14,7 +14,6 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
-import PricingPage from "./pages/pricing";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import VerifyEmailOTPPage from "./pages/VerifyEmailOTPPage";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -69,7 +68,6 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/signup" element={<Signup setUser={setUser} />} />
             <Route path="/Login" element={<Login setUser={setUser} />} />
-            <Route path="/PricingPage" element={<PricingPage />} />
           </Routes>
         </main>
         {!hideNavbarFooter && <Footer />}
